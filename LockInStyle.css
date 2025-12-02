@@ -16,7 +16,6 @@ h1:hover,h2:hover{
     display: flex;
     grid-template-columns: 1fr 1fr ;
     gap: 35px;
-    
 }
 body{
     border-collapse: collapse;
@@ -35,7 +34,6 @@ body{
     ),
     url('images/SfondoCredenziali.jpg');
     background-size: cover;
-    
 }
 #logIn_contenitore,#sign_In{
     
@@ -87,8 +85,6 @@ button:hover{
         width: 90%; 
         margin: 10px auto; 
     }
-    
-   
     button {
         width: 90%; 
         padding: 15px 10px;
