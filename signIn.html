@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8";>
+    <title>LockIn: prenota il tuo amradietto!</title>
+    <meta name="viewport" content="width=device-width,initial-scale=    1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="LockInStyle.css">
+</head>
+<body>
+    <h1>Pagina di accesso</h1>
+    <p><strong>*se non hai ancora creato l'account clicca su "ISCRIVITI"</strong></p>
+    <div id="logIn_contenitore">
+        <h2>Codice Fiscale dell'<strong>ALUNNO</strong>:</h2>
+        <input id="fiscalCode_Access" type="text" required placeholder="Codice fiscale">
+        <h2>Password:</h2>
+        <input id="password_Access" type="password" required placeholder="Password">
+        <div id='buttons'>
+            <button id='sign_in' > ISCRIVITI </button>
+            <button id='access' > ACCEDI </button>
+        </div>
+    </div>
+
+    <div id='sign_In'>
+        <h2>Codice Fiscale dell'<strong>ALUNNO</strong>:</h2>
+        <input id="fiscalCode_signIn" type="text" required placeholder="Codice fiscale">
+        <h2>Password:</h2>
+        <input id="password_signIn1" type="password" required placeholder="Password">
+        <h2>Reinserisci la password:</h2>
+        <input id="password_signIn2" type="password" required placeholder="Password">
+        <div id='buttons'>  
+            <button id='back' > ANNULLA </button>
+            <button id='sign_in' > ISCRIVITI </button>
+        </div>
+    </div>
+    <div id="griglia_Armadietti">
+    </div>
+</body>
+</html>
