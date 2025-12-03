@@ -25,5 +25,4 @@
                 <h2>Armadietto Piccolo</h2>
             </div>
         </div>
-    <
 </body>
