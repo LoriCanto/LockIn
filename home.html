@@ -19,9 +19,18 @@
         <input id="password_Access" type="password" required placeholder="Password">
         <div id='buttons'>
             <button id='sign_in' > ISCRIVITI </button>
-            <button id='access' > ACCEDI </button>
+            <button id='access' onclick="logIn()"> ACCEDI </button>
         </div>
     </div>
     </div>
 </body>
+<script>
+function logIn(){
+    //verifico credenziali, se successo reinderezzo a scelta Loker
+    
+    //scelta Loker
+    window.location.href = "lockerRoom.php";
+}
+
+</script>
 </html>
