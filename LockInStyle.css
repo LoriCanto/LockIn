@@ -39,7 +39,7 @@ body{
     
     background-color: rgb(206, 223, 253) ;
     width: 40%;
-    display: none;
+    display: flex;
     flex-direction: column; 
     align-items: flex-start;
     border-radius: 20px;
