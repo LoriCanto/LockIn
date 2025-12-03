@@ -1,0 +1,28 @@
+img{
+    width: 300px;
+    height: 300px;
+}
+body{
+   text-align: center;
+
+    
+}
+#bigLock_container,#smalLock_button{
+    background-color: white;
+    padding: 10px;
+    width: fit-content;
+    border:5px black solid;
+    text-align: center;
+    border-radius: 30px;
+    transition: transform 0.3s ease-in-out;
+}
+#bigLock_container:hover,#smalLock_button:hover{
+    transform: scale(1.08);
+}
+
+#griglia{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+   justify-items: center; /*avendo definito le colonne devo dfinire gli oggetti e non il content*/
+   gap:30px;
+}
