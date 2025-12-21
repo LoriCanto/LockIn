@@ -18,6 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Registrazione avvenuta con successo!";
     } catch (PDOException $e) {
         if ($e->getCode() == 23000) { // Codice errore per duplicato (es. username o email)
+
+            ?<
             echo "Errore: Username o Email già in uso.";
         } else {
             echo "Si è verificato un errore durante la registrazione: " . $e->getMessage();

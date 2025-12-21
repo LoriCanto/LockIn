@@ -22,7 +22,6 @@ body{
     font-family: 'Nunito',sans-serif;
     background-color: cornflowerblue;
     height: 100vh; 
-    margin: 0;
     display: flex;
     justify-content: center; 
     align-items: center;
@@ -35,16 +34,27 @@ body{
     url('images/SfondoCredenziali.jpg');
     background-size: cover;
 }
-#logIn_contenitore,#sign_In{
+#logIn_contenitore{
     
     background-color: rgb(206, 223, 253) ;
-    width: 40%;
     display: flex;
     flex-direction: column; 
-    align-items: flex-start;
+    align-items: center;
     border-radius: 20px;
     padding:10px;
+    max-width: 450px;
+   
+}
+#signIn_contenitore{
+    
+    background-color: rgb(206, 223, 253) ;
+    display: flex;
+    flex-direction: column; 
     align-items: center;
+    border-radius: 20px;
+    padding:10px;
+    max-width: 450px;
+   
 }
 input{
     text-align: center;
@@ -97,17 +107,14 @@ button:hover{
     margin-left: auto;
     margin-right: auto;
 }
-#sign_In{
-    background-color: rgb(206, 223, 253) ;
-    width: 40%;
-    display: flex;
-    flex-direction: column; 
-    align-items: flex-start;
-    border-radius: 20px;
-    padding:10px;
-    align-items: center;
-    
-}
 #griglia_Armadietti{
     display: none;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    background-color: transparent; 
 }

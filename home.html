@@ -9,27 +9,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="LockInStyle.css">
 </head>
-<body>
-    <h1>Pagina di accesso</h1>
-    <p><strong>*se non hai ancora creato l'account clicca su "ISCRIVITI"</strong></p>
-    <div id="logIn_contenitore">
-        <h2>Codice Fiscale dell'<strong>ALUNNO</strong>:</h2>
-        <input id="fiscalCode_Access" type="text" required placeholder="Codice fiscale">
-        <h2>Password:</h2>
-        <input id="password_Access" type="password" required placeholder="Password">
-        <div id='buttons'>
-            <button id='sign_in' > ISCRIVITI </button>
-            <button id='access' onclick="logIn()"> ACCEDI </button>
-        </div>
-    </div>
-    </div>
+<body id="schermataHome">
+   <div id="'logo">
+        <img src:>
+        <h1>Non perdere tempo, LockIn!</h1>
+        <button onclick="signUp()">Iscriviti</button>
+        <button onclick= "signIn()">Accedi</button>
+   </div>
 </body>
 <script>
-function logIn(){
+function signUp(){
+     window.location.href = "signUp.html";
+}
+function signIn(){
     //verifico credenziali, se successo reinderezzo a scelta Loker
-    
-    //scelta Loker
-    window.location.href = "lockerRoom.php";
+    window.location.href="signIn.html";
 }
 
 </script>
