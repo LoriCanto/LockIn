@@ -44,6 +44,7 @@ body{
     padding:10px;
     max-width: 450px;
    
+   
 }
 #signIn_contenitore{
     
@@ -53,8 +54,7 @@ body{
     align-items: center;
     border-radius: 20px;
     padding:10px;
-    max-width: 450px;
-   
+    max-width: 450px; 
 }
 input{
     text-align: center;
@@ -117,4 +117,5 @@ form{
     justify-content: center;
     padding: 5px;
     background-color: transparent; 
+    
 }

@@ -27,7 +27,20 @@
             </div>
         </form>
     </div>
-    <div id="griglia_Armadietti">
-    </div>
+    <script>
+        document.getElementById('back').onclick = function() {
+            window.location.href = "home.html";
+            return false; 
+        };
+        document.getElementById('sign_in').onclick = function() {
+            var password = document.getElementById('password').value;
+            var password2 = document.getElementById('password2').value;
+            if (password !== password2) {
+                alert("Le password non corrispondono. Per favore, riprova.");
+                return false; 
+            }
+             window.location.href = "home.html";
+        };
+    </script>
 </body>
 </html>
