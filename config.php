@@ -19,7 +19,4 @@ try {
 } catch (\PDOException $e) {
      throw new \PDOException($e->getMessage(), (int)$e->getCode());
 }
-
-// URL base per l'email di conferma (cambia con il tuo dominio)
-$base_url = "http://localhost/LockIn/";
 ?>

@@ -1,38 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8";>
-    <title>LockIn: prenota il tuo amradietto!</title>
-    <meta name="viewport" content="width=device-width,initial-scale=    1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8"> <title>LockIn: Accedi</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" href="LockInStyle.css">
 </head>
 <body>
     <h1>Pagina di accesso</h1>
-    <p><strong>*se non hai ancora creato l'account clicca su "ISCRIVITI"</strong></p>
-    <div id="logIn_contenitore">
-        <h2>Codice Fiscale dell'<strong>ALUNNO</strong>:</h2>
-        <input id="fiscalCode_Access" type="text" required placeholder="Codice fiscale">
-        <h2>Password:</h2>
-        <input id="password_Access" type="password" required placeholder="Password">
-        <div id='buttons'>
-            <button id='sign_up' onclick="signup()" > ISCRIVITI </button>
-            <button id='access' onclick="logIn()"> ACCEDI </button>
+        <div id="loading-overlay" style.display:none;>
+            <img src="images/caricamentoLucchetto.gif" alt="Caricamento..." width="100" height="auto">
+            <p>Verifica credenziali in corso...</p>
         </div>
-    </div>
-    </div>
-</body>
-<script>
-function logIn(){
-    //verifico credenziali, se successo reinderezzo a scelta Loker
+    <p><strong>*se non hai ancora creato l'account clicca su "ISCRIVITI"</strong></p>
     
-    //scelta Loker
-    window.location.href = "lockerRoom.php";
-}
-function signup(){
-     window.location.href = "signUp.html";
-}
-</script>
+    <div id="logIn_contenitore">
+        
+
+        <form action="logIn.php" method="POST" id="loginForm"> 
+            
+            <h2>Codice Fiscale dell'<strong>ALUNNO</strong>:</h2>
+            <input id="fiscalCode_Access" name="cf" type="text" required placeholder="Codice fiscale">
+            
+            <h2>Password:</h2>
+            <input id="password_Access" name="password" type="password" required placeholder="Password">
+            
+            <div id='buttons'>
+                <button type="button" id='sign_up' onclick="signup()"> ISCRIVITI </button>
+                <button type="submit" id='access'> ACCEDI </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').onsubmit = function() {
+            // Mostriamo l'overlay di caricamento
+            document.getElementById('loading-overlay').style.display = 'flex';
+            
+            // Disabilitiamo il pulsante per evitare invii doppi
+            const btn = this.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.innerText = "Caricamento...";
+        };
+    function signup(){
+         window.location.href = "signUp.html";
+    }
+
+    </script>
+</body>
 </html>

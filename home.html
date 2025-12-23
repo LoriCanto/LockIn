@@ -10,20 +10,22 @@
     <link rel="stylesheet" href="LockInStyle.css">
 </head>
 <body id="schermataHome">
-   <div id="'logo">
-        <img src:>
+   <div id="home_contenitore">
+        <img src="images\logoLockin.png" alt="Logo LockIn" width="200" height="auto">
         <h1>Non perdere tempo, LockIn!</h1>
-        <button onclick="signUp()">Iscriviti</button>
-        <button onclick= "signIn()">Accedi</button>
+        <div id="buttonSection_Home">
+            <button onclick="signUp()">Iscriviti</button>
+            <button onclick= "logIn()">Accedi</button>
+        </div>
    </div>
 </body>
 <script>
 function signUp(){
      window.location.href = "signUp.html";
 }
-function signIn(){
+function logIn(){
     //verifico credenziali, se successo reinderezzo a scelta Loker
-    window.location.href="signIn.html";
+    window.location.href="logIn.html";
 }
 
 </script>

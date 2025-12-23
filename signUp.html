@@ -10,9 +10,13 @@
     <link rel="stylesheet" href="LockInStyle.css">
 </head>
 <body>
+    <div id="loading-overlay" style="display:none;">
+            <img src="images/caricamentoLucchetto.gif" alt="Caricamento..." width="100" height="auto">
+            <p>Stiamo <em>"LockInANDO"</em> i tuoi dati...</p>
+        </div>
     <h1>Pagina di iscrizione</h1>
     <div id='signIn_contenitore'>
-        <form action="signUp.php" method="POST">
+        <form action="signUp.php" method="POST" id="signUpForm">
             <h2>Codice Fiscale dell'<strong>ALUNNO</strong>:</h2>
             <input id="cf" name="cf" type="text" required placeholder="Codice fiscale">
             <h2>Email:</h2>
@@ -22,24 +26,24 @@
             <h2>Reinserisci la password:</h2>
             <input id="password2" type="password" required placeholder="Password">
             <div id='buttons'>  
-                <button id='back' > ANNULLA </button>
+                <button id='back' type="button"> ANNULLA </button>
                 <button id='sign_in'  type="submit"> ISCRIVITI </button>
             </div>
         </form>
     </div>
     <script>
+          document.getElementById('signUpForm').onsubmit = function() {
+            // Mostriamo l'overlay di caricamento
+            document.getElementById('loading-overlay').style.display = 'flex';
+            
+            // Disabilitiamo il pulsante per evitare invii doppi
+            const btn = this.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.innerText = "Caricamento...";
+        };
         document.getElementById('back').onclick = function() {
             window.location.href = "home.html";
             return false; 
-        };
-        document.getElementById('sign_in').onclick = function() {
-            var password = document.getElementById('password').value;
-            var password2 = document.getElementById('password2').value;
-            if (password !== password2) {
-                alert("Le password non corrispondono. Per favore, riprova.");
-                return false; 
-            }
-             window.location.href = "home.html";
         };
     </script>
 </body>
