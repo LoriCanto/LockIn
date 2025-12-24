@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         } else {
             // Credenziali errate
-            echo "<script>alert('Email o Password errati!'); window.location.href='logIn.html';</script>";
+            echo "<script>alert('Codice Fiscale o Password errati!'); window.location.href='logIn.html';</script>";
         }
 
     } catch (PDOException $e) {

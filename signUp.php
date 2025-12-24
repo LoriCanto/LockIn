@@ -8,6 +8,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['cf'];
     $email = $_POST['email'];
     $password = $_POST['password'];
+    $password_confirm = $_POST['password2'];
+
+    if ($password !== $password_confirm) {
+        echo "<script>alert('Le password non coincidono!'); window.location.href='signUp.html';</script>";
+        exit();
+    }
 
     // Hash della Password
     $password_hash = password_hash($password, PASSWORD_DEFAULT);

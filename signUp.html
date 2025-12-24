@@ -24,7 +24,7 @@
             <h2>Password:</h2>
             <input id="password" name="password" type="password" required placeholder="Password">
             <h2>Reinserisci la password:</h2>
-            <input id="password2" type="password" required placeholder="Password">
+            <input id="password2" name="password2" type="password" required placeholder="Password">
             <div id='buttons'>  
                 <button id='back' type="button"> ANNULLA </button>
                 <button id='sign_in'  type="submit"> ISCRIVITI </button>
@@ -33,10 +33,10 @@
     </div>
     <script>
           document.getElementById('signUpForm').onsubmit = function() {
-            // Mostriamo l'overlay di caricamento
+            // Mostro l'overlay di caricamento
             document.getElementById('loading-overlay').style.display = 'flex';
             
-            // Disabilitiamo il pulsante per evitare invii doppi
+            // Disabilito il pulsante per evitare invii doppi
             const btn = this.querySelector('button[type="submit"]');
             btn.disabled = true;
             btn.innerText = "Caricamento...";
