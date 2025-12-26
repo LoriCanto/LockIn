@@ -1,12 +1,8 @@
 img{
     width: 300px;
     height: 300px;
-}
-body{
-   text-align: center;
+}   
 
-    
-}
 #bigLock_container,#smalLock_button{
     background-color: white;
     padding: 10px;

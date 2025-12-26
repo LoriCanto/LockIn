@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8";>
+    <meta charset="UTF-8" ;>
     <title>LockIn: prenota il tuo amradietto!</title>
     <meta name="viewport" content="width=device-width,initial-scale=    1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -9,24 +10,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="LockInStyle.css">
 </head>
-<body id="schermataHome">
-   <div id="home_contenitore">
-        <img src="images\logoLockin.png" alt="Logo LockIn" width="200" height="auto">
-        <h1>Non perdere tempo, LockIn!</h1>
-        <div id="buttonSection_Home">
-            <button onclick="signUp()">Iscriviti</button>
-            <button onclick= "logIn()">Accedi</button>
+
+<body>
+    <div id="div_contenitore">
+        <div id="home_contenitore">
+            <img src="images\logoLockin.png" alt="Logo LockIn" width="200" height="auto">
+            <h1>Non perdere tempo, LockIn!</h1>
+            <div id="buttonSection_Home">
+                <button onclick="signUp()">Iscriviti</button>
+                <button onclick="logIn()">Accedi</button>
+            </div>
         </div>
-   </div>
+    </div>
 </body>
 <script>
-function signUp(){
-     window.location.href = "signUp.html";
-}
-function logIn(){
-    //verifico credenziali, se successo reinderezzo a scelta Loker
-    window.location.href="logIn.html";
-}
+    function signUp() {
+        window.location.href = "signUp.html";
+    }
+    function logIn() {
+        //verifico credenziali, se successo reinderezzo a scelta Loker
+        window.location.href = "logIn.html";
+    }
 
 </script>
+
 </html>

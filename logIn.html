@@ -1,50 +1,52 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8"> <title>LockIn: Accedi</title>
+    <meta charset="UTF-8">
+    <title>LockIn: Accedi</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" href="LockInStyle.css">
+    <script src="script/lockIn.js"></script>
 </head>
+
 <body>
-    <h1>Pagina di accesso</h1>
-        <div id="loading-overlay" style.display:none;>
-            <img src="images/caricamentoLucchetto.gif" alt="Caricamento..." width="100" height="auto">
-            <p>Verifica credenziali in corso...</p>
-        </div>
-    <p><strong>*se non hai ancora creato l'account clicca su "ISCRIVITI"</strong></p>
-    
-    <div id="logIn_contenitore">
-        
-
-        <form action="logIn.php" method="POST" id="loginForm"> 
-            
-            <h2>Codice Fiscale dell'<strong>ALUNNO</strong>:</h2>
-            <input id="fiscalCode_Access" name="cf" type="text" required placeholder="Codice fiscale">
-            
-            <h2>Password:</h2>
-            <input id="password_Access" name="password" type="password" required placeholder="Password">
-            
-            <div id='buttons'>
-                <button type="button" id='sign_up' onclick="signup()"> ISCRIVITI </button>
-                <button type="submit" id='access'> ACCEDI </button>
-            </div>
-        </form>
+    <div id="loading-overlay" style.display:none;>
+        <img src="images/caricamentoLucchetto.gif" alt="Caricamento..." width="100" height="auto">
+        <p>Verifica credenziali in corso...</p>
     </div>
-
-    <script>
-        document.getElementById('loginForm').onsubmit = function() {
-            // Mostriamo l'overlay di caricamento
-            document.getElementById('loading-overlay').style.display = 'flex';
-            
-            // Disabilitiamo il pulsante per evitare invii doppi
-            const btn = this.querySelector('button[type="submit"]');
-            btn.disabled = true;
-            btn.innerText = "Caricamento...";
-        };
-    function signup(){
-         window.location.href = "signUp.html";
-    }
-
-    </script>
+    <div id="div_contenitore">
+        <h1>Pagina di accesso</h1>
+        <p><strong>*se non hai ancora creato l'account clicca su "ISCRIVITI"</strong></p>
+        <div id="logIn_contenitore">
+            <form action="userManager.php" method="POST" id="loginForm">
+                <input type="hidden" name="action" value="logIn">
+                <h2>Codice Fiscale dell'<strong>ALUNNO</strong>:</h2>
+                <input id="fiscalCode_Access" name="cf" type="text" required placeholder="Codice fiscale"
+                    onkeyup="touppercase(this.id,this.value);"
+                    pattern="^[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST]{1}[0-9LMNPQRSTUV]{2}[A-Z]{1}[0-9LMNPQRSTUV]{3}[A-Z]{1}$">
+                <h2>Password:</h2>
+                <input id="password_Access" name="password" type="password" required placeholder="Password">
+                <div id='buttons'>
+                    <button type="button" id='sign_up' onclick="signup()"> ISCRIVITI </button>
+                    <button type="submit" id='access'> ACCEDI </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
+<script>
+    document.getElementById('loginForm').onsubmit = function () {
+        // Mostriamo l'overlay di caricamento
+        document.getElementById('loading-overlay').style.display = 'flex';
+
+        // Disabilitiamo il pulsante per evitare invii doppi
+        const btn = this.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        btn.innerText = "Caricamento...";
+    };
+    function signup() {
+        window.location.href = "signUp.html";
+    }
+</script>
+
 </html>

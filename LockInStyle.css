@@ -1,11 +1,3 @@
-@keyframes spin {
-    0% { 
-        transform: rotate(0deg); 
-    }
-    100% { 
-        transform: rotate(360deg); 
-    }
-}
 h1,h2{
     transition: transform 0.3s ease-in-out;
 }
@@ -22,10 +14,6 @@ body{
     font-family: 'Nunito',sans-serif;
     background-color: cornflowerblue;
     height: 100vh; 
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    flex-direction: column;
     background-image:
     linear-gradient(
         rgba(100, 149, 237, 0.7),
@@ -33,6 +21,13 @@ body{
     ),
     url('images/SfondoCredenziali.jpg');
     background-size: cover;
+}
+
+#div_contenitore{
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    flex-direction: column;
 }
 #logIn_contenitore{
     
@@ -84,25 +79,6 @@ button:hover{
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-@media screen and (max-width: 600px) {
-    
-    div {
-        width: 90%; 
-        padding: 20px 15px;
-    }
-    
-    input {
-        width: 90%; 
-        margin: 10px auto; 
-    }
-    button {
-        width: 90%; 
-        padding: 15px 10px;
-        font-size: 1.1em; 
-        margin-top: 20px; 
-    }
-}
-
 #fiscalCode_Access,#password_Access{
     margin-left: auto;
     margin-right: auto;
@@ -115,9 +91,7 @@ form{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 5px;
     background-color: transparent; 
-    
 }
 #home_contenitore {
     display: flex;

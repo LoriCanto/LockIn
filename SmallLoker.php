@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8";>
+    <meta charset="UTF-8" ;>
     <title>LockIn: prenota il tuo amradietto!</title>
     <meta name="viewport" content="width=device-width,initial-scale=    1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,20 +12,15 @@
 </head>
 
 <body id="schermataHome">
-   <div id= "selezionaPiano">
-    <input type="radio">
-    <select>
-        <option value="pianoTerra">Piano Terra</option>
-        <option value="primoPiano">Primo Piano</option>
-    </select>
-    
+    <div id="selezionaPiano">
+        <button onclick=""></button>
 
-
-   </div>
+    </div>
 </body>
 <script>
-    // ci sono 200 armadietti tra il piano terra e primo piano
+// ci sono 200 armadietti tra il piano terra e primo piano
 
-var numeroArmadietti = 200;
-</script>
+    var numeroArmadietti = 200;
+</ script>
+
 </html>

@@ -1,0 +1,66 @@
+
+/* Il contenitore che divide Menu e Contenuto */
+#main-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+#menu {
+    width: 200px; 
+    background-color: #f8f9fa;
+    padding: 20px;
+    position: sticky; 
+    top: 0;
+    
+    
+}
+
+#locker-content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+
+.grid-5x5 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 colonne */
+    max-width: 300px; 
+    
+}
+
+.locker-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.locker-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.locker-code {
+    position: absolute;
+    color: black;
+    font-weight: bold;
+    z-index: 2;
+}
+
+/* Effetto per i locker occupati */
+.occupato {
+    opacity: 0.5;
+    filter: grayscale(1);
+    cursor: not-allowed;
+}
+
+.locker-box.libero {
+    cursor: pointer;
+}
+
+.locker-box.libero:hover {
+    filter: brightness(1.1); 
+    transform: scale(1.02);
+}

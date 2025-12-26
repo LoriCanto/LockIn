@@ -1,50 +1,58 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8";>
+    <meta charset="UTF-8" ;>
     <title>LockIn: prenota il tuo amradietto!</title>
     <meta name="viewport" content="width=device-width,initial-scale=    1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="LockInStyle.css">
+    <script src="script/lockIn.js"></script>
 </head>
+
 <body>
     <div id="loading-overlay" style="display:none;">
-            <img src="images/caricamentoLucchetto.gif" alt="Caricamento..." width="100" height="auto">
-            <p>Stiamo <em>"LockInANDO"</em> i tuoi dati...</p>
-        </div>
-    <h1>Pagina di iscrizione</h1>
-    <div id='signIn_contenitore'>
-        <form action="signUp.php" method="POST" id="signUpForm">
-            <h2>Codice Fiscale dell'<strong>ALUNNO</strong>:</h2>
-            <input id="cf" name="cf" type="text" required placeholder="Codice fiscale">
-            <h2>Email:</h2>
-            <input id="email" name="email" type="email" required placeholder="EMail">
-            <h2>Password:</h2>
-            <input id="password" name="password" type="password" required placeholder="Password">
-            <h2>Reinserisci la password:</h2>
-            <input id="password2" name="password2" type="password" required placeholder="Password">
-            <div id='buttons'>  
-                <button id='back' type="button"> ANNULLA </button>
-                <button id='sign_in'  type="submit"> ISCRIVITI </button>
-            </div>
-        </form>
+        <img src="images/caricamentoLucchetto.gif" alt="Caricamento..." width="100" height="auto">
+        <p>Stiamo <em>"LockInANDO"</em> i tuoi dati...</p>
     </div>
-    <script>
-          document.getElementById('signUpForm').onsubmit = function() {
-            // Mostro l'overlay di caricamento
-            document.getElementById('loading-overlay').style.display = 'flex';
-            
-            // Disabilito il pulsante per evitare invii doppi
-            const btn = this.querySelector('button[type="submit"]');
-            btn.disabled = true;
-            btn.innerText = "Caricamento...";
-        };
-        document.getElementById('back').onclick = function() {
-            window.location.href = "home.html";
-            return false; 
-        };
-    </script>
+    <div id="div_contenitore">
+        <h1>Pagina di iscrizione</h1>
+        <div id='signIn_contenitore'>
+            <form action="userManager.php" method="POST" id="signUpForm">
+                <input type="hidden" name="action" value="signUp">
+                <h2>Codice Fiscale dell'<strong>ALUNNO</strong>:</h2>
+                <input id="cf" name="cf" type="text" required placeholder="Codice fiscale"
+                    onkeyup="touppercase(this.id,this.value);"
+                    pattern="^[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST]{1}[0-9LMNPQRSTUV]{2}[A-Z]{1}[0-9LMNPQRSTUV]{3}[A-Z]{1}$">
+                <h2>Email:</h2>
+                <input id="email" name="email" type="email" required placeholder="EMail">
+                <h2>Password:</h2>
+                <input id="password" name="password" type="password" required placeholder="Inserisci la tua password">
+                <h2>Ripeti la password:</h2>
+                <input id="password2" name="password2" type="password" required placeholder="Ripeti la password">
+                <div id='buttons'>
+                    <button id='back' type="button"> ANNULLA </button>
+                    <button id='sign_in' type="submit"> ISCRIVITI </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
+<script>
+    document.getElementById('signUpForm').onsubmit = function () {
+        // Mostro l'overlay di caricamento
+        document.getElementById('loading-overlay').style.display = 'flex';
+
+        // Disabilito il pulsante per evitare invii doppi
+        const btn = this.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        btn.innerText = "Caricamento...";
+    };
+    document.getElementById('back').onclick = function () {
+        window.location.href = "home.html";
+        return false;
+    };
+</script>
 </html>
