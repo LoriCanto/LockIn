@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<body>
+     <div>   
+        <form action="lockerManager.php" method="POST">
+        <button name="lockerGet" type="submit">GET</button>
+        <input type="hidden" name="action" value="get">
+        </form>
+    </div>
+    <div>   
+        <form action="lockerManager.php" method="POST">
+        <input type="text" name="lockerID" placeholder="lockerID">
+        <button name="lockerRelease" type="submit">UNLOCK </button>
+        <input type="hidden" name="action" value="unlock">
+        </form>
+    </div>
+
+   <div>   
+        <form action="lockerManager.php" method="POST">
+        <input type="text" name="lockerID" placeholder="lockerID">
+        <input type="text" name="userID" placeholder="userID">
+        <button name="lockerLock" type="submit"> LOCK</button>
+        <input type="hidden" name="action" value="lock">
+        </form>
+    </div>
+       <div>   
+        <form action="lockerManager.php" method="POST">
+        <input type="number" name="lockerCount" placeholder="quanti">
+        <input type="text" name="lockerGroup" placeholder="gruppo" >
+        <input type="text" name="lockerType" placeholder="tipo">
+        <input type="text" name="lockerYear" placeholder="anno scolastico" >
+        <button name="lockerLock" type="submit">INSERT</button>
+        <input type="hidden" name="action" value="insert">
+        </form>
+    </div>
+    <div>   
+        <form action="lockerManager.php" method="POST">
+        <input type="text" name="lockerID" placeholder="lockerID">
+        <button name="lockerRelease" type="submit">REMOVE </button>
+        <input type="hidden" name="action" value="remove">
+        </form>
+    </div>    
+</body>
