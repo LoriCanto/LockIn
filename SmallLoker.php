@@ -20,7 +20,6 @@
 <script>
 // ci sono 200 armadietti tra il piano terra e primo piano
 
-    var numeroArmadietti = 200;
-</ script>
+</script>
 
 </html>
