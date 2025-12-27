@@ -1,5 +1,5 @@
 <?php
-session_start();
+require 'auth.php';
 require 'config.php';
 try {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -17,7 +17,12 @@ try {
             $userID = $_POST['userID'];
             $stmt = $pdo->prepare("UPDATE locker SET utente = ?, data_prenotazione = NOW() WHERE id = ? and utente is null");
             $stmt->execute([$userID, $lockerID]);
-            header("Location: myLocker.php");
+            if ($stmt->rowCount() == 0) {
+                $_SESSION['LockerBookingError'] = "Errore: L'armadietto non è più disponibile.";
+                header("Location: chooseBigLocker.php");
+            } else {
+                header("Location: myLocker.php");
+            }
         }
     }
 } catch (PDOException $e) {

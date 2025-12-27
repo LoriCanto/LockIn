@@ -40,7 +40,7 @@ $disponibilitaTotale = $numGrandi + $numPiccoli;
             <h1>Scegli la dimensione che desideri</h1>
             <div id='griglia'>
                 <div id='bigLock_container'>
-                    <form action="chooseBigLocker.php" method="POST">
+                    <form action="lockerDataFilter.php" method="POST">
                         <input type="hidden" name="posizione" value="PIANO TERRA">
                         <input type="hidden" name="tipo" value="GRANDE">
                         <div id='bigLock_button' onclick="this.parentNode.submit()">
@@ -51,7 +51,7 @@ $disponibilitaTotale = $numGrandi + $numPiccoli;
                     </form>
                 </div>
                 <div id='smalLock_container'>
-                    <form action="chooseBigLocker.php" method="POST">
+                    <form action="lockerDataFilter.php" method="POST">
                         <input type="hidden" name="posizione" value="PIANO TERRA">
                         <input type="hidden" name="tipo" value="PICCOLO">
                         <div id='smalLock_button' onclick="this.parentNode.submit()">

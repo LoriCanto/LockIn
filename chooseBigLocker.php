@@ -2,10 +2,11 @@
 require 'auth.php';
 require 'config.php';
 
+$errorMsg = $_SESSION['LockerBookingError'];
 
 // parametri in post
-$posizione = $_POST['posizione'];
-$tipo = $_POST['tipo'];
+$posizione = $_SESSION['posizione'];
+$tipo = $_SESSION['tipo'];
 
 // prendo pos
 $stmtPos = $pdo->query("SELECT DISTINCT posizione FROM locker ORDER BY posizione");
@@ -43,7 +44,7 @@ if ($posizione) {
         <h5>Sei loggato come: <?= htmlspecialchars($_SESSION['user_code']); ?> <a href="#" onclick="inviaPost('userManager.php', {action: 'logOut'}); return false;">Log Out</a></h5>
             <h3>Piani</h3>
             <div class="menu-option">
-                <form method="POST" action="chooseBigLocker.php">
+                <form method="POST" action="lockerDataFilter.php">
                     <select name="tipo" id="tipoLocker" onchange="this.form.submit()">
                         <?php foreach ($tip as $lTipo) { ?>
                             <option value="<?= $lTipo ?>" <?= ($tipo == $lTipo) ? 'selected' : '' ?>>
@@ -66,6 +67,11 @@ if ($posizione) {
 
         <main id="locker-content">
             <h1>Scegli il tuo armadietto - <?= htmlspecialchars($posizione) ?></h1>
+            <?php if ($errorMsg): ?>
+                <div class="error-message">
+                    <?= htmlspecialchars($errorMsg)?>
+                </div>
+            <?php endif; ?>
             <?php if ($posizione): ?>
                 <?php foreach ($gruppi as $nomeGruppo): ?>
                     <div class="gruppo-container">

@@ -56,7 +56,7 @@ require 'config.php';
                  <form action="lockerManager.php" method="POST">
                 <input type="hidden" name="lockerID" value="<?= $ret['id'] ?>">
                 <input type="hidden" name="action" value="unlock">
-                <button id="logOut_button" type="submit">Rilascia Amradietto</button>
+                <button id="logOut_button" type="submit">Annulla questa prenotazione</button>
             </form>
             </div>
             </div>
