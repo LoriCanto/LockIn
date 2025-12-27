@@ -1,5 +1,6 @@
 <?php
 require 'auth.php';
+require 'config.php';
 ?>
 
 <!DOCTYPE html>
@@ -16,21 +17,79 @@ require 'auth.php';
 </head>
 
 <body>
-    <h5>Sei loggato come: <?= htmlspecialchars($_SESSION['user_code']); ?></h5>
-    <h1>Personl Page</h1>
-    <div id="queueing_section">
-        <form action="queueManager.php" method="POST">
-            <h2>Tutti gli armadietti sono stati presi, mettiti in coda!</h2>
-            <input type="hidden" name="userID" value="<?= $_SESSION['user_id'] ?>">
-            <input type="hidden" name="action" value="remove">
-            <button type="submit">Toglimi dalla coda</button>
-        </form>
-    </div>
-    <div id="auth_buttons">
-        <form action="userManager.php" method="POST">
-            <input type="hidden" name="action" value="logOut">
-            <button type="submit">Log Out</button>
-        </form>
+    <div id="div_contenitore">
+        <h5>Sei loggato come: <?= htmlspecialchars($_SESSION['user_code']); ?></h5>
+        <h1>Personal Page</h1>
+
+        <?php
+        // Controllo se l'utente è in coda
+        $ret = presenzaCoda($pdo, $_SESSION['user_id']);
+        if ($ret) {
+            echo "<div id=GESTIONE_CODA> ";
+            echo "<h3>Data prenotazione: " . $ret['data_prenotazione'] . "</h3>";
+            echo "<h3>Posizione nella coda: " . $ret['posizione'] . "</h3>";
+        ?>
+            <div id=" queueing_section">
+
+                <form action="queueManager.php" method="POST">
+                    <input type="hidden" name="userID" value="<?=$ret['utente'] ?>">
+                    <input type="hidden" name="action" value="remove">
+                    <button id="logOut_button" type="submit">Toglimi dalla coda</button>
+                </form>
+            </div>
+        <?php
+            echo "</div> ";
+        }
+
+        // Controllo se l'utente ha un locker assegnato
+        $ret = presenzaLocker($pdo, $_SESSION['user_id']);
+        if ($ret) {
+            echo "<div id=GESTIONE_LOCKER> ";
+        ?>
+            <h2>Il tuo Amradietto:</h2>
+            <label> Codice: <?= $ret['codice'] ?></label>
+            <label> Tipo: <?= $ret['tipo'] ?></label>
+            <label> Gruppo: <?= $ret['gruppo'] ?></label>
+            <label> Data prenotazione: <?= $ret['data_prenotazione'] ?></label>
+                
+            <form action="lockerManager.php" method="POST">
+                <input type="hidden" name="lockerID" value="<?= $ret['id']?>">
+                <input type="hidden" name="action" value="unlock">
+                <button id="logOut_button" type="submit">Rilascia Amradietto</button>
+            </form>
+        <?php
+            echo "</div> ";
+        } ?>
+
+        <div id="auth_buttons">
+            <form action="userManager.php" method="POST">
+                <input type="hidden" name="action" value="logOut">
+                <button type="submit">Log Out</button>
+            </form>
+        </div>
 </body>
 
 </html>
+
+<?php
+
+function presenzaCoda($pdo, $userID)
+{
+    $stmt = $pdo->prepare("SELECT *, (SELECT COUNT(*) FROM queue AS q2 WHERE q2.id <= q1.id) AS posizione FROM queue AS q1 WHERE q1.utente = ?");
+    $stmt->execute([$userID]);
+    $ret = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $ret;
+}
+
+function presenzaLocker($pdo, $userID)
+{
+    $stmt = $pdo->prepare("SELECT id,codice, data_prenotazione, tipo, gruppo FROM locker WHERE utente = ?");
+    $stmt->execute([$userID]);
+    $ret = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $ret;
+}
+
+?>
+<script>
+
+</script>

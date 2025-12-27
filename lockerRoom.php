@@ -7,6 +7,8 @@ $numGrandi = $resGrandi->fetchColumn();
 
 $resPiccoli = $pdo->query("SELECT COUNT(*) FROM locker WHERE UCASE(tipo) = 'PICCOLO' AND (utente IS NULL OR utente = '')");
 $numPiccoli = $resPiccoli->fetchColumn();
+
+$disponibilitaTotale = $numGrandi + $numPiccoli;
 ?>
 
 <!DOCTYPE html>
@@ -26,28 +28,30 @@ $numPiccoli = $resPiccoli->fetchColumn();
 <body>
     <div id="div_contenitore">
         <h5>Sei loggato come: <?= htmlspecialchars($_SESSION['user_code']); ?></h5>
-        <div id="queueing_section">
+        <div id="queueing_section" style="display: <?php echo ($disponibilitaTotale > 0) ? 'none' : 'block'; ?>;">
             <form action="queueManager.php" method="post">
-            <h2>Tutti gli armadietti sono stati presi, mettiti in coda!</h2>
-            <input type="hidden" name="userID" value="<?= $_SESSION['user_id'] ?>">
-            <input type="hidden" name="action" value="insert">
-            <button type="submit">Mettimi in coda</button>
+                <h2>Tutti gli armadietti sono stati presi, mettiti in coda!</h2>
+                <input type="hidden" name="userID" value="<?= $_SESSION['user_id'] ?>">
+                <input type="hidden" name="action" value="insert">
+                <button type="submit">Mettimi in coda</button>
             </form>
         </div>
-        <h1>Scegli la dimensione che desideri</h1>
-        <div id='griglia'>
-            <div id='bigLock_container'>
-                <div id='bigLock_button' onclick="window.location.href = 'chooseBigLocker.php';">
-                    <img src="images/armadiettogrande.jpg">
-                    <h2>Armadietto Grande</h2>
-                    <h4> Disponibilità: <span id="bigLock_availability"><?= $numGrandi ?></span></label>
+        <div style="display: <?php echo ($disponibilitaTotale == 0) ? 'none' : 'block'; ?>;">    
+            <h1>Scegli la dimensione che desideri</h1>
+            <div id='griglia' >
+                <div id='bigLock_container'>
+                    <div id='bigLock_button' onclick="window.location.href = 'chooseBigLocker.php';">
+                        <img src="images/armadiettogrande.jpg">
+                        <h2>Armadietto Grande</h2>
+                        <h4> Disponibilità: <span id="bigLock_availability"><?= $numGrandi ?></span></label>
+                    </div>
                 </div>
-            </div>
-            <div id='smalLock_container'>
-                <div id="smalLock_button">
-                    <img src="images/armadiettopiccolo.jpg">
-                    <h2>Armadietto Piccolo</h2>
-                    <h4> Disponibilità: <span id="smallLock_availability"><?= $numPiccoli ?></span></h4>
+                <div id='smalLock_container'>
+                    <div id="smalLock_button">
+                        <img src="images/armadiettopiccolo.jpg">
+                        <h2>Armadietto Piccolo</h2>
+                        <h4> Disponibilità: <span id="smallLock_availability"><?= $numPiccoli ?></span></h4>
+                    </div>
                 </div>
             </div>
         </div>
