@@ -1,18 +1,28 @@
 <?php
+require 'auth.php';
 require 'config.php';
-session_start();
 
-// Prendo i gruppi dal database per generare le diverse sezioni
-$stmtGruppi = $pdo->query("SELECT DISTINCT gruppo FROM locker ORDER BY gruppo");
-$gruppi = $stmtGruppi->fetchAll(PDO::FETCH_COLUMN);
 
-// Prendo i tipi dal database per generare le diverse sezioni
-$stmtTipi = $pdo->query("SELECT DISTINCT gruppo FROM locker ORDER BY tipo");
-$tipi = $stmtTipi->fetchAll(PDO::FETCH_COLUMN);
+// parametri in post
+$posizione = $_POST['posizione'];
+$tipo = $_POST['tipo'];
 
-// Prendo le posizioni dal database per generare le diverse sezioni
+// prendo pos
 $stmtPos = $pdo->query("SELECT DISTINCT posizione FROM locker ORDER BY posizione");
 $pos = $stmtPos->fetchAll(PDO::FETCH_COLUMN);
+
+// prendo tipi di armadietto
+$stmtTipo = $pdo->query("SELECT DISTINCT tipo FROM locker ORDER BY tipo");
+$tip = $stmtTipo->fetchAll(PDO::FETCH_COLUMN);
+
+// se cambio posizione prendo i gruppi di quella posizione
+if ($posizione) {
+    $stmtGruppi = $pdo->prepare("SELECT DISTINCT gruppo FROM locker WHERE posizione = ? and tipo = ? ORDER BY gruppo");
+    $stmtGruppi->execute([$posizione, $tipo]);
+    $gruppi = $stmtGruppi->fetchAll(PDO::FETCH_COLUMN);
+} else {
+    $gruppi = [];
+}
 ?>
 
 <!DOCTYPE html>
@@ -30,55 +40,67 @@ $pos = $stmtPos->fetchAll(PDO::FETCH_COLUMN);
 <body>
     <div id="main-layout">
         <aside id="menu">
-            <h5>Sei loggato come: <?= htmlspecialchars($_SESSION['user_code']); ?></h5>
+        <h5>Sei loggato come: <?= htmlspecialchars($_SESSION['user_code']); ?> <a href="#" onclick="inviaPost('userManager.php', {action: 'logOut'}); return false;">Log Out</a></h5>
             <h3>Piani</h3>
             <div class="menu-option">
-                <label for="scelta">Scegli un'opzione:</label>
-                <?php
-                echo "<select name=\"piano\" id=\"pianoLocker\">";
-                foreach ($pos as $posizione)
-                    echo "<option value=\"$posizione\">$posizione</option>";
-                echo "</select>";
-
-                ?>
+                <form method="POST" action="chooseBigLocker.php">
+                    <select name="tipo" id="tipoLocker" onchange="this.form.submit()">
+                        <?php foreach ($tip as $lTipo) { ?>
+                            <option value="<?= $lTipo ?>" <?= ($tipo == $lTipo) ? 'selected' : '' ?>>
+                                <?= $lTipo ?>
+                            </option>
+                        <?php } ?>
+                    </select> 
+                    <!-- <input type="hidden" name="tipo" value="<?= htmlspecialchars($tipo) ?>">         -->
+                    <label for="pianoLocker">Scegli posizione:</label>
+                    <select name="posizione" id="posizioneLocker" onchange="this.form.submit()">
+                        <?php foreach ($pos as $lPos) { ?>
+                            <option value="<?= $lPos ?>" <?= ($posizione == $lPos) ? 'selected' : '' ?>>
+                                <?= $lPos ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </form>
             </div>
         </aside>
+
         <main id="locker-content">
-            <h1>Scegli il tuo armadietto</h1>
-            <?php foreach ($gruppi as $nomeGruppo): ?>
-                <div class="gruppo-container">
-                    <h2>Gruppo <?php echo $nomeGruppo; ?></h2>
-                    <div class="grid-5x5">
-                        <?php
-                        // Query per estrarre i locker di questo specifico gruppo
-                        $stmtLocker = $pdo->prepare("SELECT id, codice, utente FROM locker WHERE gruppo = ? LIMIT 25");
-                        $stmtLocker->execute([$nomeGruppo]);
-                        $lockers = $stmtLocker->fetchAll();
-                        foreach ($lockers as $locker):
-                            // Controllo se l'armadietto è libero o occupato (se 'utente' è pieno, allora è occupato)
-                            $isOccupato = !empty($locker['utente']);
-                            $classeStato = $isOccupato ? 'occupato' : 'libero';
-                        ?>
-                            <?php if (!$isOccupato): ?>
-                                <form action="lockerManager.php" method="post">
-                                    <input type="hidden" name="lockerID" value="<?php echo $locker['id']; ?>">
-                                    <input type="hidden" name="action" value="lock">
-                                    <input type="hidden" name="userID" value="<?php echo $_SESSION['user_id']; ?>">
-                                    <div class="locker-box libero" onclick="this.parentNode.submit();">
-                                        <img src="images/armadiettoGrandeSingolo.png" alt="Armadietto" class="locker-img">
+            <h1>Scegli il tuo armadietto - <?= htmlspecialchars($posizione) ?></h1>
+            <?php if ($posizione): ?>
+                <?php foreach ($gruppi as $nomeGruppo): ?>
+                    <div class="gruppo-container">
+                        <h2>Gruppo <?php echo $nomeGruppo; ?></h2>
+                        <div class="grid-5x5">
+                            <?php
+                            //filrto  anche la posizione
+                            $stmtLocker = $pdo->prepare("SELECT id, codice, utente,tipo FROM locker WHERE gruppo = ? AND posizione = ? LIMIT 25");
+                            $stmtLocker->execute([$nomeGruppo, $posizione]);
+                            $lockers = $stmtLocker->fetchAll();
+
+                            foreach ($lockers as $locker):
+                                $isOccupato = !empty($locker['utente']);
+                            ?>
+                                <?php if (!$isOccupato): ?>
+                                    <form action="lockerManager.php" method="post">
+                                        <input type="hidden" name="lockerID" value="<?php echo $locker['id']; ?>">
+                                        <input type="hidden" name="action" value="lock">
+                                        <input type="hidden" name="userID" value="<?php echo $_SESSION['user_id']; ?>">
+                                        <div class="locker-box libero" onclick="this.parentNode.submit();">
+                                            <img src="images/<?php echo $locker['tipo']; ?>.png" alt="Armadietto" class="locker-img">
+                                            <span class="locker-code"><?php echo $locker['codice']; ?></span>
+                                        </div>
+                                    </form>
+                                <?php else: ?>
+                                    <div class="locker-box occupato">
+                                        <img src="images/<?php echo $locker['tipo']; ?>.png" alt="Armadietto" class="locker-img">
                                         <span class="locker-code"><?php echo $locker['codice']; ?></span>
                                     </div>
-                                </form>
-                            <?php else: ?>
-                                <div class="locker-box occupato">
-                                    <img src="images/grande.png" alt="Armadietto" class="locker-img">
-                                    <span class="locker-code"><?php echo $locker['codice']; ?></span>
-                                </div>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </main>
     </div>
 </body>

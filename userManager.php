@@ -5,8 +5,11 @@ try {
         // Recupero dati dai 'name' del form HTML
         $action = $_POST['action'];
         if ($action == 'logOut') {
+            session_start();
+            $_SESSION = array(); // Svuota le variabili in memoria
             session_destroy();
             header("Location: home.html");
+            exit();
         } elseif ($action == 'logIn') {
             $cf = $_POST['cf'];
             $password_inserita = $_POST['password'];

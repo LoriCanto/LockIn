@@ -9,3 +9,21 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 ?>
+<script>
+function inviaPost(url, dati) {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = url;
+
+    for (const chiave in dati) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = chiave;
+        input.value = dati[chiave];
+        form.appendChild(input);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+</script>

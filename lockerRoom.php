@@ -27,7 +27,7 @@ $disponibilitaTotale = $numGrandi + $numPiccoli;
 
 <body>
     <div id="div_contenitore">
-        <h5>Sei loggato come: <?= htmlspecialchars($_SESSION['user_code']); ?></h5>
+        <h5>Sei loggato come: <?= htmlspecialchars($_SESSION['user_code']); ?> <a href="#" onclick="inviaPost('userManager.php', {action: 'logOut'}); return false;">Log Out</a></h5>
         <div id="queueing_section" style="display: <?php echo ($disponibilitaTotale > 0) ? 'none' : 'block'; ?>;">
             <form action="queueManager.php" method="post">
                 <h2>Tutti gli armadietti sono stati presi, mettiti in coda!</h2>
@@ -36,23 +36,32 @@ $disponibilitaTotale = $numGrandi + $numPiccoli;
                 <button type="submit">Mettimi in coda</button>
             </form>
         </div>
-        <div style="display: <?php echo ($disponibilitaTotale == 0) ? 'none' : 'block'; ?>;">    
+        <div style="display: <?php echo ($disponibilitaTotale == 0) ? 'none' : 'block'; ?>;">
             <h1>Scegli la dimensione che desideri</h1>
-            <div id='griglia' >
+            <div id='griglia'>
                 <div id='bigLock_container'>
-                    <div id='bigLock_button' onclick="window.location.href = 'chooseBigLocker.php';">
-                        <img src="images/armadiettogrande.jpg">
-                        <h2>Armadietto Grande</h2>
-                        <h4> Disponibilità: <span id="bigLock_availability"><?= $numGrandi ?></span></label>
-                    </div>
+                    <form action="chooseBigLocker.php" method="POST">
+                        <input type="hidden" name="posizione" value="PIANO TERRA">
+                        <input type="hidden" name="tipo" value="GRANDE">
+                        <div id='bigLock_button' onclick="this.parentNode.submit()">
+                            <img src="images/armadiettogrande.jpg">
+                            <h2>Armadietto Grande</h2>
+                            <h4> Disponibilità: <span id="bigLock_availability"><?= $numGrandi ?></span></label>
+                        </div>
+                    </form>
                 </div>
                 <div id='smalLock_container'>
-                    <div id="smalLock_button">
-                        <img src="images/armadiettopiccolo.jpg">
-                        <h2>Armadietto Piccolo</h2>
-                        <h4> Disponibilità: <span id="smallLock_availability"><?= $numPiccoli ?></span></h4>
-                    </div>
+                    <form action="chooseBigLocker.php" method="POST">
+                        <input type="hidden" name="posizione" value="PIANO TERRA">
+                        <input type="hidden" name="tipo" value="PICCOLO">
+                        <div id='smalLock_button' onclick="this.parentNode.submit()">
+                            <img src="images/armadiettopiccolo.jpg">
+                            <h2>Armadietto Piccolo</h2>
+                            <h4> Disponibilità: <span id="smallLock_availability"><?= $numPiccoli ?></span></h4>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
 </body>
