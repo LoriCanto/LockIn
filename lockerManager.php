@@ -15,6 +15,13 @@ try {
         } elseif ($action == 'lock') {
             $lockerID = $_POST['lockerID'];
             $userID = $_POST['userID'];
+            // CONTROLLO UTENTE SENZA ARMADIETTO ASSEGNATO
+            $stmt = $pdo->prepare("SELECT * from Locker WHERE utente = ?");
+            $stmt->execute([$userID]);
+            if ($stmt->rowCount() > 0) {
+                header("Location: myLocker.php");
+            }
+            // CONTROLLO ARMADIETTO LIBERO E ASSEGNAZIONE  
             $stmt = $pdo->prepare("UPDATE locker SET utente = ?, data_prenotazione = NOW() WHERE id = ? and utente is null");
             $stmt->execute([$userID, $lockerID]);
             if ($stmt->rowCount() == 0) {

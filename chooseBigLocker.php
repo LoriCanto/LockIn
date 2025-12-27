@@ -39,9 +39,10 @@ if ($posizione) {
 </head>
 
 <body>
+    <h5>Sei loggato come: <?= htmlspecialchars($_SESSION['user_code']); ?> <a href="#" onclick="inviaPost('userManager.php', {action: 'logOut'}); return false;">Log Out</a></h5>
+
     <div id="main-layout">
         <aside id="menu">
-        <h5>Sei loggato come: <?= htmlspecialchars($_SESSION['user_code']); ?> <a href="#" onclick="inviaPost('userManager.php', {action: 'logOut'}); return false;">Log Out</a></h5>
             <h3>Piani</h3>
             <div class="menu-option">
                 <form method="POST" action="lockerDataFilter.php">
@@ -51,7 +52,7 @@ if ($posizione) {
                                 <?= $lTipo ?>
                             </option>
                         <?php } ?>
-                    </select> 
+                    </select>
                     <!-- <input type="hidden" name="tipo" value="<?= htmlspecialchars($tipo) ?>">         -->
                     <label for="pianoLocker">Scegli posizione:</label>
                     <select name="posizione" id="posizioneLocker" onchange="this.form.submit()">
@@ -69,7 +70,7 @@ if ($posizione) {
             <h1>Scegli il tuo armadietto - <?= htmlspecialchars($posizione) ?></h1>
             <?php if ($errorMsg): ?>
                 <div class="error-message">
-                    <?= htmlspecialchars($errorMsg)?>
+                    <?= htmlspecialchars($errorMsg) ?>
                 </div>
             <?php endif; ?>
             <?php if ($posizione): ?>
