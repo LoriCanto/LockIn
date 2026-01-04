@@ -34,8 +34,8 @@ if ($posizione) {
     <title>LockIn - Prenotazione</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="choosingLocker.css">
-    <link rel="stylesheet" href="LockInStyle.css">
+    <link rel="stylesheet" href="assets/css/choosingLocker.css">
+    <link rel="stylesheet" href="assets/css/LockInStyle.css">
 </head>
 
 <body>
@@ -46,14 +46,14 @@ if ($posizione) {
             <h3>Piani</h3>
             <div class="menu-option">
                 <form method="POST" action="lockerDataFilter.php">
-                    <select name="tipo" id="tipoLocker" onchange="this.form.submit()">
+                    <!-- <select name="tipo" id="tipoLocker" onchange="this.form.submit()">
                         <?php foreach ($tip as $lTipo) { ?>
                             <option value="<?= $lTipo ?>" <?= ($tipo == $lTipo) ? 'selected' : '' ?>>
                                 <?= $lTipo ?>
                             </option>
                         <?php } ?>
-                    </select>
-                    <!-- <input type="hidden" name="tipo" value="<?= htmlspecialchars($tipo) ?>">         -->
+                    </select> -->
+                     <input type="hidden" name="tipo" value="<?= htmlspecialchars($tipo) ?>">
                     <label for="pianoLocker">Scegli posizione:</label>
                     <select name="posizione" id="posizioneLocker" onchange="this.form.submit()">
                         <?php foreach ($pos as $lPos) { ?>
@@ -63,6 +63,7 @@ if ($posizione) {
                         <?php } ?>
                     </select>
                 </form>
+                <button onclick="location.href='lockerRoom.php'">Cambia dimensione</button>
             </div>
         </aside>
 
@@ -93,13 +94,13 @@ if ($posizione) {
                                         <input type="hidden" name="action" value="lock">
                                         <input type="hidden" name="userID" value="<?php echo $_SESSION['user_id']; ?>">
                                         <div class="locker-box libero" onclick="this.parentNode.submit();">
-                                            <img src="images/<?php echo $locker['tipo']; ?>.png" alt="Armadietto" class="locker-img">
+                                            <img src="assets/images/<?php echo $locker['tipo']; ?>.png" alt="Armadietto" class="locker-img">
                                             <span class="locker-code"><?php echo $locker['codice']; ?></span>
                                         </div>
                                     </form>
                                 <?php else: ?>
                                     <div class="locker-box occupato">
-                                        <img src="images/<?php echo $locker['tipo']; ?>.png" alt="Armadietto" class="locker-img">
+                                        <img src="assets/images/<?php echo $locker['tipo']; ?>.png" alt="Armadietto" class="locker-img">
                                         <span class="locker-code"><?php echo $locker['codice']; ?></span>
                                     </div>
                                 <?php endif; ?>

@@ -21,8 +21,8 @@ $disponibilitaTotale = $numGrandi + $numPiccoli;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="LockInStyle.css">
-    <link rel="stylesheet" href="lokerRoom_Style.css">
+    <link rel="stylesheet" href="assets/css/LockInStyle.css">
+    <link rel="stylesheet" href="assets/css/lockerRoom_Style.css">
 </head>
 
 <body>
@@ -44,7 +44,7 @@ $disponibilitaTotale = $numGrandi + $numPiccoli;
                         <input type="hidden" name="posizione" value="PIANO TERRA">
                         <input type="hidden" name="tipo" value="GRANDE">
                         <div id='bigLock_button' onclick="this.parentNode.submit()">
-                            <img src="images/armadiettogrande.jpg">
+                            <img src="assets/images/armadiettogrande.jpg">
                             <h2>Armadietto Grande</h2>
                             <h4> Disponibilità: <span id="bigLock_availability"><?= $numGrandi ?></span></label>
                         </div>
@@ -55,7 +55,7 @@ $disponibilitaTotale = $numGrandi + $numPiccoli;
                         <input type="hidden" name="posizione" value="PIANO TERRA">
                         <input type="hidden" name="tipo" value="PICCOLO">
                         <div id='smalLock_button' onclick="this.parentNode.submit()">
-                            <img src="images/armadiettopiccolo.jpg">
+                            <img src="assets/images/armadiettopiccolo.jpg">
                             <h2>Armadietto Piccolo</h2>
                             <h4> Disponibilità: <span id="smallLock_availability"><?= $numPiccoli ?></span></h4>
                         </div>

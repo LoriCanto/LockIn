@@ -17,7 +17,7 @@ $posizione = $_POST['posizione'];
 $tipo = $_POST['tipo'];
 $_SESSION['posizione'] = $posizione;
 $_SESSION['tipo'] = $tipo;
-header('Location: chooseBigLocker.php');
+header('Location: choosingLocker.php');
 
 
 exit();

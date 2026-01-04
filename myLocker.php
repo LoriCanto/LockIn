@@ -13,7 +13,7 @@ require 'config.php';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="LockInStyle.css">
+    <link rel="stylesheet" href="assets/css/LockInStyle.css">
 </head>
 
 <body>
@@ -46,7 +46,7 @@ require 'config.php';
         ?>
             <h2>Il tuo Armadietto:</h2>
             <div style="display: flex; flex-direction: row;">
-            <img src="images/<?php echo $ret['tipo']; ?>.png" alt="Locker Image" width="100" height="auto">
+            <img src="assets/images/<?php echo $ret['tipo']; ?>.png" alt="Locker Image" width="100" height="auto">
             <div id="locker_details" style="display: flex; flex-direction: column;">
                 <label> Codice: <?= $ret['codice'] ?></label>
 

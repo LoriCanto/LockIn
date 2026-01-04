@@ -26,7 +26,7 @@ try {
             $stmt->execute([$userID, $lockerID]);
             if ($stmt->rowCount() == 0) {
                 $_SESSION['LockerBookingError'] = "Errore: L'armadietto non è più disponibile.";
-                header("Location: chooseBigLocker.php");
+                header("Location: choosingLocker.php");
             } else {
                 header("Location: myLocker.php");
             }

@@ -3,7 +3,7 @@ session_start();
 require 'config.php';
 try {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Recupero dati dai 'name' del form HTML
+        // Recupero dati dai name del form HTML
         $action = $_POST['action'];
         if ($action == 'remove') {
             $userID = $_POST['userID'];

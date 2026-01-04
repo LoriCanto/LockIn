@@ -19,7 +19,7 @@ body{
         rgba(100, 149, 237, 0.7),
         rgba(100, 149, 237, 0.7)  
     ),
-    url('images/SfondoCredenziali.jpg');
+    url('../images/SfondoCredenziali.jpg');
     background-size: cover;
 }
 
