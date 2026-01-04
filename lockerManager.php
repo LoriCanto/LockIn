@@ -28,7 +28,7 @@ try {
                 $_SESSION['LockerBookingError'] = "Errore: L'armadietto non è più disponibile.";
                 header("Location: choosingLocker.php");
             } else {
-                header("Location: myLocker.php");
+                header("Location: lockerTakensuccess.html");
             }
         }
     }

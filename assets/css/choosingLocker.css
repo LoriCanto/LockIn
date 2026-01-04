@@ -6,19 +6,11 @@
 }
 
 
-#menu {
-    width: 200px; 
-    background-color: #f8f9fa;
-    padding: 20px;
-    position: sticky; 
-    top: 0;
-    
-    
-}
-
 #locker-content {
     flex-grow: 1;
     padding: 20px;
+    background-color: rgba(255, 255, 255, 0.85) ;
+    border-radius: 5%;
 }
 
 
@@ -48,6 +40,18 @@
     color: black;
     font-weight: bold;
     z-index: 2;
+}
+
+#formPosizione{
+    display: block !important;
+    background-color:rgb(96, 121, 190);
+    margin-top: 10px;
+    border-radius:  20px;
+    font-size: medium;
+    padding: 10px;
+    border: 2px solid rgba(0, 26, 255, 0.575);
+    color: whitesmoke;
+    width: fit-content;
 }
 
 /* Effetto per i locker occupati */

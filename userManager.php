@@ -15,7 +15,7 @@ try {
             $password_inserita = $_POST['password'];
 
             try {
-                // 2. Prepariamo la query per cercare l'utente tramite email
+                // 2. Prepariamo la query per cercare l'utente tramite cf
                 // Supponiamo che la tua tabella si chiami 'utenti'
                 $user = null;
                 $stmt = $pdo->prepare("SELECT * FROM user WHERE cf = ?");
