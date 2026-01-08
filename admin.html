@@ -1,42 +1,71 @@
 <!DOCTYPE html>
+
+<html lang="it">
+<title>LockIn:adminManager!</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/admin.css">
+<link rel="icon" type="image/png" href="assets/images/favicon.ico">
+<script src="assets/js/lockIn.js"></script>
+<script>
+     function inviaPost(url, data) {
+                var form = document.createElement("form");
+                form.method = "POST";
+                form.action = url;
+                for (var key in data) {
+                    var input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = key;
+                    input.value = data[key];
+                    form.appendChild(input);
+                }
+                document.body.appendChild(form);
+                form.submit();
+            }
+</script>
 <body>
-     <div>   
+ <a href="#" onclick="inviaPost('userManager.php', {action: 'logOut'}); return false;">Log Out</a>
+    <h1>GESTISCI ARMADIETTI</h1>
+    <div>
         <form action="adminManager.php" method="POST">
-        <button name="lockerGet" type="submit">GET</button>
-        <input type="hidden" name="action" value="get">
+            <button name="lockerGet" type="submit">LISTA ARMADIETTI</button>
+            <input type="hidden" name="action" value="get">
         </form>
     </div>
-    <div>   
+    <div>
         <form action="adminManager.php" method="POST">
-        <input type="text" name="lockerID" placeholder="lockerID">
-        <button name="lockerRelease" type="submit">UNLOCK </button>
-        <input type="hidden" name="action" value="unlock">
+            <input type="text" name="lockerID" placeholder="lockerID" >
+            <button name="lockerRelease" type="submit">UNLOCK </button>
+            <input type="hidden" name="action" value="unlock">
         </form>
     </div>
 
-   <div>   
+    <div>
         <form action="adminManager.php" method="POST">
-        <input type="text" name="lockerID" placeholder="lockerID">
-        <input type="text" name="userID" placeholder="userID">
-        <button name="lockerLock" type="submit"> LOCK</button>
-        <input type="hidden" name="action" value="lock">
+            <input type="text" name="lockerID" placeholder="lockerID">
+            <input type="text" name="userID" placeholder="userID">
+            <button name="lockerLock" type="submit"> LOCK</button>
+            <input type="hidden" name="action" value="lock">
         </form>
     </div>
-       <div>   
+    <div>
         <form action="adminManager.php" method="POST">
-        <input type="number" name="lockerCount" placeholder="quanti">
-        <input type="text" name="lockerGroup" placeholder="gruppo" >
-        <input type="text" name="lockerType" placeholder="tipo">
-        <input type="text" name="lockerYear" placeholder="anno scolastico" >
-        <button name="lockerLock" type="submit">INSERT</button>
-        <input type="hidden" name="action" value="insert">
+            <input type="number" name="lockerCount" placeholder="quanti">
+            <input type="text" name="lockerGroup" placeholder="gruppo">
+            <input type="text" name="lockerType" placeholder="tipo">
+            <input type="text" name="lockerPosition" placeholder="posizione">
+            <input type="text" name="lockerYear" placeholder="anno scolastico">
+            <button name="lockerInsert" type="submit">INSERT</button>
+            <input type="hidden" name="action" value="insert">
         </form>
     </div>
-    <div>   
+    <div>
         <form action="adminManager.php" method="POST">
-        <input type="text" name="lockerID" placeholder="lockerID">
-        <button name="lockerRelease" type="submit">REMOVE </button>
-        <input type="hidden" name="action" value="remove">
+            <input type="text" name="lockerID" placeholder="lockerID">
+            <button name="lockerRelease" type="submit">REMOVE </button>
+            <input type="hidden" name="action" value="remove">
         </form>
-    </div>    
+    </div>
 </body>

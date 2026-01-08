@@ -1,17 +1,22 @@
 <?php
 session_start();
-echo "Login effettuato con successo!";
-echo "<br>Benvenuto, " . htmlspecialchars($_SESSION['user_id']) . "!";
+
+// Controllo se l'utente è loggato e se ha il ruolo di admin
+if ($_SESSION['role'] !== 'admin') {
+    header("HTTP/1.1 403 Forbidden");
+    header("Location: logIn.html");
+    exit();
+}
 
 require 'config.php';
+
 try {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Recupero dati dai 'name' del form HTML
         $action = $_POST['action'];
 
         if ($action == 'get') {
-            echo "Locker got.";
-            $stmt = $pdo->prepare("SELECT locker.id, codice, gruppo, tipo, email as utente, anno FROM locker  LEFT JOIN user ON locker.utente = user.id ORDER BY gruppo;");
+            $stmt = $pdo->prepare("SELECT locker.id, codice, posizione, gruppo, tipo, cf as utente, anno FROM locker LEFT JOIN user ON locker.utente = user.id ORDER BY gruppo;");
             $stmt->execute();
 
             // Recuperiamo tutti i risultati
@@ -19,19 +24,22 @@ try {
 
             if ($lockers) {
                 echo "<h2>Stato dei Locker</h2>";
+                ?> <button onclick="location.href='admin.html'">Torna alle azioni admin</button><?php
                 echo "<table border='1' cellpadding='10' style='border-collapse: collapse; width: 100%;'>";
                 echo "<tr style='background-color: #f2f2f2;'>
                 <th>Codice</th>
+                <th>Posizione</th>
                 <th>Gruppo</th>
                 <th>Tipo</th>
                 <th>Utente</th>
                 <th>Anno</th>
-                <th>Azoni</th>
+                <th>Azioni</th>
               </tr>";
 
                 foreach ($lockers as $row) {
                     echo "<tr>";
                     echo "<td>" . htmlspecialchars($row['codice']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['posizione']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['gruppo']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['tipo']) . "</td>";
                     echo "<td>" . ($row['utente'] ? htmlspecialchars($row['utente']) : '<i>Libero</i>') . "</td>";
@@ -49,25 +57,20 @@ try {
                                 <button name="lockerLock" type="submit">LOCK </button>
                                 <input type="hidden" name="action" value="lock">
                             </form>
-                            <form action="lockerManager.php" method="POST">
+                            <form action="adminManager.php" method="POST">
                                 <input type="hidden" name="lockerID" value='<?php echo htmlspecialchars($row['id']); ?>'>
-                                <button name="lockerLock" type="submit">REMOVE </button>
+                                <button name="lockerRemove" type="submit">REMOVE </button>
                                 <input type="hidden" name="action" value="remove">
-                            </form>
-                            <form action="lockerManager.php" method="POST">
-                                <input type="hidden" name="lockerID" value='<?php echo htmlspecialchars($row['id']); ?>'>
-                                <input type="hidden" name="userID" placeholder="userID" value='<?php echo htmlspecialchars($_SESSION['user_id']); ?>'>
-                                <button name="lockerLock" type="submit">EASYLOCK </button>
-                                <input type="hidden" name="action" value="lock">
                             </form>
                         </div>
                     </td>
-<?php
+            <?php
                     echo "</tr>";
                 }
                 echo "</table>";
             } else {
                 echo "Nessun locker trovato nel database.";
+                ?> <button onclick="location.href='admin.html'">Torna alle azioni admin</button><?php
             }
         } elseif ($action == 'unlock') {
             $lockerID = $_POST['lockerID'];
@@ -85,21 +88,77 @@ try {
             $stmt = $pdo->prepare("DELETE FROM locker WHERE id = ?");
             $stmt->execute([$lockerID]);
             echo "Locker $lockerID removed.";
-        } elseif ($action == 'insert') {
-            echo "Lockers inserting.";
-            $lockerCount = $_POST['lockerCount'];
+            ?>
+            <form action="adminManager.php" method="POST" style="margin-top: 20px;">
+                <input type="hidden" name="action" value="get">
+                <button type="submit">Aggiorna e torna alla lista</button>
+            </form>
+<?php
+         } elseif ($action == 'insert') {
+            $lockerCount = (int)$_POST['lockerCount'];
             $lockerGroup = $_POST['lockerGroup'];
+            $lockerPosition = $_POST['lockerPosition'];
             $lockerType = $_POST['lockerType'];
             $lockerYear = $_POST['lockerYear'];
-            for ($i = 0; $i < $lockerCount; $i++) {
-                $stmt = $pdo->prepare("INSERT INTO locker (anno, codice, gruppo, tipo) VALUES (?, CONCAT(?, ?), ?, ? );");
-                $stmt->execute([$lockerYear, $lockerGroup, $i + 1, $lockerGroup, $lockerType]);
+
+            // --- INIZIO PARTE MODIFICATA ---
+            // Conto quanti armadietti esistono già per questo gruppo
+            $stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM locker WHERE gruppo = ?");
+            $stmtCheck->execute([$lockerGroup]);
+            $existingCount = (int)$stmtCheck->fetchColumn();
+
+            // Controllo se il totale (esistenti + nuovi) supera 25
+            if (($existingCount + $lockerCount) > 25) {
+                echo "<h2>Errore di inserimento</h2>";
+                echo "Hai inserito troppi armadietti a blocco.<br>";
+                echo "Il gruppo <strong>$lockerGroup</strong> ha già $existingCount armadietti. ";
+                echo "Non puoi aggiungerne altri $lockerCount perché supereresti il limite di 25.";
+                ?>
+                <br><br>
+                <button onclick="location.href='admin.html'">Torna indietro</button>
+                <?php
+            } else {
+                // Se il controllo passa, procedo con l'inserimento
+                echo "Lockers inserting...";
+
+                // Trovo l'ultimo numero utilizzato per questo gruppo
+                $stmtMax = $pdo->prepare("SELECT codice FROM locker WHERE gruppo = ? ORDER BY id DESC LIMIT 1");
+                $stmtMax->execute([$lockerGroup]);
+                $lastLocker = $stmtMax->fetch();
+
+                $startNumber = 0;
+                if ($lastLocker) {
+                    $startNumber = (int)str_replace($lockerGroup, '', $lastLocker['codice']);
+                }
+
+                for ($i = 1; $i <= $lockerCount; $i++) {
+                    $currentNumber = $startNumber + $i;
+                    $codiceFinal = $lockerGroup . $currentNumber;
+
+                    $stmt = $pdo->prepare("INSERT INTO locker (anno, codice, gruppo, tipo, posizione) VALUES (?, ?, ?, ?, ?)");
+                    $stmt->execute([$lockerYear, $codiceFinal, $lockerGroup, $lockerType, $lockerPosition]);
+                    
+                    $newLockerID = $pdo->lastInsertId();
+
+                    $stmtQueue = $pdo->query("SELECT utente FROM queue ORDER BY data_prenotazione ASC LIMIT 1");
+                    $nextUser = $stmtQueue->fetch();
+
+                    if ($nextUser) {
+                        $nextUserID = $nextUser['utente'];
+                        $stmtAssign = $pdo->prepare("UPDATE locker SET utente = ?, data_prenotazione = NOW() WHERE id = ?");
+                        $stmtAssign->execute([$nextUserID, $newLockerID]);
+
+                        $stmtDelete = $pdo->prepare("DELETE FROM queue WHERE utente = ?");
+                        $stmtDelete->execute([$nextUserID]);
+                    }
+                }
+                echo "<br>Inseriti $lockerCount armadietti del gruppo $lockerGroup (partendo da " . ($startNumber + 1) . ").";
+                ?> <br><button onclick="location.href='admin.html'">Torna alle azioni admin</button> <?php
             }
-            echo "$lockerCount lockers inserted.";
+            // --- FINE PARTE MODIFICATA ---
         }
     }
 } catch (PDOException $e) {
-    // Gestisci l'errore (es. loggalo o mostra un messaggio pulito)
     echo "Errore durante l'operazione: " . $e->getMessage();
 }
 ?>

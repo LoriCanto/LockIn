@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'config.php';
+sleep(3);
 try {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Recupero dati dai name del form HTML
@@ -12,12 +13,21 @@ try {
             echo "<script>alert('User removed from queue.');</script>";
             header("Location: lockerRoom.php");
         } elseif ($action == 'insert') {
-            echo "Queue inserting.";
             $userID = $_POST['userID'];
-            $stmt = $pdo->prepare("INSERT INTO queue (utente, tipo, data_prenotazione) VALUES (?, 'CODA', NOW());");
+            // CONTROLLO UTENTE GIA' IN CODA
+            $stmt = $pdo->prepare("SELECT * from queue WHERE utente = ?");
             $stmt->execute([$userID]);
-            echo "<script>alert('User inserted in queue.');</script>";
-            header("Location: myLocker.php");
+            if ($stmt->rowCount() > 0) {
+                header("Location: myLocker.php");
+            }
+            // INSERIMENTO IN CODA
+            else {
+                echo "Queue inserting.";
+                $stmt = $pdo->prepare("INSERT INTO queue (utente, tipo, data_prenotazione) VALUES (?, 'CODA', NOW());");
+                $stmt->execute([$userID]);
+                echo "<script>alert('User inserted in queue.');</script>";
+                header("Location: lockerTakensuccess.html");
+            }
         }
     }
 } catch (PDOException $e) {

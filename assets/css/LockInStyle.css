@@ -92,7 +92,32 @@ form{
     justify-content: center;
     background-color: transparent; 
 }
+#info_container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    color: whitesmoke; 
+}
 
+#info_container img {
+    cursor: pointer;
+    border-radius: 50%; 
+}
+.guida_contenitore{
+    margin-top: 20px;
+    background-color: rgb(206, 223, 253) ;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    border-radius: 20px;
+    padding:10px;
+    max-width: 600px; 
+}
 
 
 #home_contenitore {
@@ -154,6 +179,12 @@ form{
     border-radius: 20px;
     padding:10px;
     max-width: 450px; 
+}
+#locker_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
 }
 
 /* --- Stili per la Finestra Modale di Conferma --- */
@@ -249,3 +280,4 @@ form{
         transform: scale(1); 
     }
 }
+

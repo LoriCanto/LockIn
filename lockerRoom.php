@@ -23,6 +23,7 @@ $disponibilitaTotale = $numGrandi + $numPiccoli;
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/LockInStyle.css">
     <link rel="stylesheet" href="assets/css/lockerRoom_Style.css">
+    <link rel="icon" type="image/png" href="assets/images/favicon.ico">
 </head>
 
 <body>

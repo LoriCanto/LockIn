@@ -1,32 +1,42 @@
 <?php
 require 'config.php';
+//sleep(3); per mostrare anim caricamento
 try {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Recupero dati dai 'name' del form HTML
         $action = $_POST['action'];
+
         if ($action == 'logOut') {
             session_start();
-            $_SESSION = array(); // Svuota le variabili in memoria
+            $_SESSION = array(); 
             session_destroy();
-            header("Location: home.html");
+            header("Location: index.html");
             exit();
+
         } elseif ($action == 'logIn') {
             $cf = $_POST['cf'];
             $password_inserita = $_POST['password'];
 
+            //CONDIZIONE ADMIN
+            if ($cf === 'AADMIN00A00D000M' && $password_inserita === 'Locker_admin') {
+                session_start();
+                $_SESSION['user_id'] = 0; 
+                $_SESSION['user_code'] = 'ADMIN';
+                $_SESSION['role'] = 'admin';
+                
+                
+                header("Location: admin.html"); 
+                exit();
+            }
+            
+
             try {
-                // 2. Prepariamo la query per cercare l'utente tramite cf
-                // Supponiamo che la tua tabella si chiami 'utenti'
-                $user = null;
+                // Procedura normale per gli utenti studenti
                 $stmt = $pdo->prepare("SELECT * FROM user WHERE cf = ?");
                 $stmt->execute([$cf]);
                 $user = $stmt->fetch();
 
-                // 3. Verifichiamo se l'utente esiste e se la password è corretta
                 if ($user != null && password_verify($password_inserita, $user['password'])) {
-                    // Avviamo la sessione per ricordare che l'utente è loggato
                     session_start();
-                    // Credenziali corrette! Salviamo i dati in sessione
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['user_code'] = $user['cf'];
 
@@ -34,29 +44,28 @@ try {
                     $prenotazione = $pdo->prepare("SELECT count(*) FROM (SELECT utente FROM locker UNION SELECT utente FROM queue) Presenza WHERE utente = ?");
                     $prenotazione->execute([$user['id']]);
                     $res = $prenotazione->fetchColumn();
+                    
                     if ($res > 0) {
-                        // L'utente ha già un armadietto assegnato
                         header("Location: myLocker.php");
                         exit();
                     } else {
-                        // INVIO ALLA PRENOTAZIONE
                         header("Location: lockerRoom.php");
                         exit();
                     }
                 } else {
                     // Credenziali errate
-                    // ANNULLO LA SESSIONE PER SICUREZZA
+                    if (session_status() === PHP_SESSION_NONE) session_start();
                     session_destroy();
                     echo "<script>alert('Codice Fiscale o Password errati!'); window.location.href='logIn.html';</script>";
                 }
             } catch (PDOException $e) {
-                $_SESSION['user_id'] = null;
+                if (session_status() === PHP_SESSION_NONE) session_start();
                 session_destroy();
-                // Gestione errori del database
                 echo "Errore durante il login: " . $e->getMessage();
             }
+
         } elseif ($action == 'signUp') {
-            // Recupero dati dai 'name' del form HTML
+           
             $username = $_POST['cf'];
             $email = $_POST['email'];
             $password = $_POST['password'];
@@ -67,18 +76,13 @@ try {
                 exit();
             }
 
-            // Hash della Password
             $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
             try {
                 $stmt = $pdo->prepare("INSERT INTO user (cf, email, password) VALUES (?, ?, ?)");
                 $stmt->execute([$username, $email, $password_hash]);
-
                 header("Location: signUpSuccess.html");
-                
-           
             } catch (PDOException $e) {
-                // Gestione errori (es. duplicati)
                 if ($e->getCode() == 23000) {
                     echo "<script>alert('Errore: Codice Fiscale già in uso.');window.location.href='logIn.html';</script>";
                 } else {
@@ -90,6 +94,5 @@ try {
         echo "Azione non valida.";
     }
 } catch (PDOException $e) {
-    // Gestisci l'errore (es. loggalo o mostra un messaggio pulito)
     echo "Errore durante l'operazione: " . $e->getMessage();
 }

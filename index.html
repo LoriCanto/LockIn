@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <title>LockIn: prenota il tuo amradietto!</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/LockInStyle.css">
+    <link rel="icon" type="image/png" href="assets/images/favicon.ico">
+</head>
+
+<body>
+    <script>
+        function signUp() {
+            window.location.href = "signUp.html";
+        }
+        function logIn() {
+            //verifico credenziali, se successo reinderezzo a scelta Loker
+            window.location.href = "logIn.html";
+        }
+
+    </script>
+
+    <div id="info_container">
+        <span>Informazioni</span>
+        <a href="guida.html" class="info-link">
+            <img src="assets/images/infobutton.png" alt="Informazioni sulla sito" width="30">
+        </a>
+
+    </div>
+    <div id="div_contenitore">
+        <div id="home_contenitore">
+            <img src="assets/images/logoLockin.png" alt="Logo LockIn" width="200">
+            <h1>Non perdere tempo, LockIn!</h1>
+            <div id="buttonSection_Home">
+                <button onclick="signUp()">Iscriviti</button>
+                <button onclick="logIn()">Accedi</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+</html>

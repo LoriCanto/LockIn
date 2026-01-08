@@ -36,24 +36,58 @@ if ($posizione) {
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/choosingLocker.css">
     <link rel="stylesheet" href="assets/css/LockInStyle.css">
+    <link rel="icon" type="image/png" href="assets/images/favicon.ico">
 </head>
 
 <body>
-    <h5>Sei loggato come: <?= htmlspecialchars($_SESSION['user_code']); ?> 
-        <a href="#" onclick="inviaPost('userManager.php', {action: 'logOut'}); return false;">Log Out</a>
-    </h5>
+    <script>
+        function mostraCaricamento() {
+            const overlay = document.getElementById('loading-overlay');
+            if (overlay) {
+                overlay.style.display = 'flex';
+            }
+        }
+
+        function inviaPost(url, data) {
+            mostraCaricamento();
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = url;
+            for (const key in data) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = data[key];
+                form.appendChild(input);
+            }
+            document.body.appendChild(form);
+            // Piccolo ritardo anche qui per sicurezza visiva
+            setTimeout(() => {
+                form.submit();
+            }, 50);
+        }
+    </script>
+
+    <div id="loading-overlay" style="display:none;">
+        <img src="assets/images/caricamentoLucchetto.gif" alt="Caricamento..." width="100">
+        <p>Caricamento...</p>
+    </div>
 
     <div id="div_contenitore">
+        <h5>Sei loggato come: <?= htmlspecialchars($_SESSION['user_code']); ?>
+            <a href="#" onclick="inviaPost('userManager.php', {action: 'logOut'}); return false;">Log Out</a>
+        </h5>
+
         <main id="locker-content">
             <h1>Scegli il tuo armadietto - <?= htmlspecialchars($posizione) ?></h1>
-            
+
             <div class="header-booking">
                 <button type="button" onclick="location.href='lockerRoom.php'">Cambia dimensione</button>
-                
+
                 <form id="formPosizione" method="POST" action="lockerDataFilter.php" class="form-posizione-inline">
                     <input type="hidden" name="tipo" value="<?= htmlspecialchars($tipo) ?>">
                     <label for="posizioneLocker">Piano:</label>
-                    <select name="posizione" id="posizioneLocker" onchange="this.form.submit()">
+                    <select name="posizione" id="posizioneLocker" onchange="mostraCaricamento(); setTimeout(() => { this.form.submit(); }, 50);">
                         <?php foreach ($pos as $lPos) { ?>
                             <option value="<?= $lPos ?>" <?= ($posizione == $lPos) ? 'selected' : '' ?>>
                                 <?= $lPos ?>
@@ -87,7 +121,8 @@ if ($posizione) {
                                         <input type="hidden" name="lockerID" value="<?php echo $locker['id']; ?>">
                                         <input type="hidden" name="action" value="lock">
                                         <input type="hidden" name="userID" value="<?php echo $_SESSION['user_id']; ?>">
-                                        <div class="locker-box libero" onclick="this.parentNode.submit();">
+
+                                        <div class="locker-box libero" onclick="mostraCaricamento(); setTimeout(() => { this.parentNode.submit(); }, 100);">
                                             <img src="assets/images/<?php echo $locker['tipo']; ?>.png" alt="Armadietto" class="locker-img">
                                             <span class="locker-code"><?php echo $locker['codice']; ?></span>
                                         </div>
@@ -106,4 +141,5 @@ if ($posizione) {
         </main>
     </div>
 </body>
+
 </html>

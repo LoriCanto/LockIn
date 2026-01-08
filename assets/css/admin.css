@@ -1,0 +1,26 @@
+body{
+    background-color: cornflowerblue;
+    height: 100vh;
+
+}
+button{
+    text-align: center;
+    height: 40px;
+    font-size: medium;
+    border-color: rgba(0, 26, 255, 0.575); 
+}
+form{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+input{
+    text-align: center;
+    height: 40px;
+    font-size: medium;
+    border-color: rgba(0, 26, 255, 0.575);
+}
+input[type="text"] {
+    text-transform: uppercase;
+}
